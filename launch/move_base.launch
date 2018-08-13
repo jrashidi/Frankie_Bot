@@ -1,0 +1,19 @@
+<launch>
+	<!-- rosserial node to connect with arduino base controller --> 
+	<node> 
+
+	</node>
+
+	<!-- launch  zedd camera-->
+	<include file="$(find frankie_bot)/launch/include/zedd.launch"
+
+	<!-- Publish transformation from basefootprint to base link -->
+	<node>
+		pkg="tf" type="static_transform_publisher" name="base_footprint_to_base_link" args="" 
+	</node>
+
+	<!-- Publish odometry information -->
+	<node>
+		pkg="frankie_bot" name="frankie_odom_node" tpye="frankie_odom_node"
+	</node>
+<launch> 
