@@ -1,6 +1,9 @@
 <launch>
-	<!-- rosserial node to connect with arduino base controller --> 
-	<node> 
+	<!-- activate rtabmapping with localization:=true --> 
+	<include file="$(find frankie_bot)/launch/include/rtab_mapping.launch"> 
+		<arg name="localization" value="true" />
+	<include/>
 
-	</node>
+	<!-- activate navigation stack --> 
+	<include file="$(find frankie_bot)/launch/include/move_base.launch" />
 <launch> 

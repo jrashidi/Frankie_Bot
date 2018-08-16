@@ -1,0 +1,14 @@
+<launch>
+	<!-- rosserial node to connect with arduino base controller --> 
+    <node pkg="rosserial_python" name="rosserial_frankie" type="serial_node.py" output="screen">
+        <param name="port" value="/dev/ttyUSB0" />
+        <param name="baud" value="9600" />
+    </node>
+
+	<!-- launch  zedd camera-->
+	<include file="$(find frankie_bot)/launch/include/zedd.launch"
+
+
+	<!-- Publish static transform from base_footprint to base_link -->
+    <node pkg="tf" type="static_transform_publisher" name="base_footprint_to_base_link" args="0 0 0.098 0 0 0  /base_footprint /base_link  100"/>
+<launch> 

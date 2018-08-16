@@ -1,6 +1,10 @@
 <launch>
-	<!-- start Zedd Camera --> 
-	<node> 
+	<!-- Publish static transform from base_link to "laser" -->
+	<node pkg="tf" type="static_transform_publisher" name="base_link_to_laser"
+	args="0.065 0 0.098 0 0 0  /base_link /laser  100"/>
 
-	</node>
+	<!-- start Zedd Camera --> 
+	<group ns="camera">
+		<node name="zedd_camera" pkg="zed_wrapper" type="zedd_camera" output="screen" />
+	</group>	
 <launch> 
