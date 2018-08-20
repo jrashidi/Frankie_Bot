@@ -11,7 +11,7 @@ TebLocalPlannerROS:
  dt_hysteresis: 0.1
  global_plan_overwrite_orientation: True
  max_global_plan_lookahead_dist: 3.0
- feasibility_check_no_poses: 2
+ feasibility_check_no_poses: 5
 
  # Robot
  cmd_angle_instead_rotvel: True
@@ -23,9 +23,8 @@ TebLocalPlannerROS:
  min_turning_radius: 0.2
  wheelbase: 0.27
  footprint_model: # types: "point", "circular", "two_circles", "line", "polygon"
-   type: "line"
-   line_start: [-0.135, 0.0] # for type "line"
-   line_end: [0.135, 0.0] # for type "line"
+   type: "circular"
+   radius: 0.2
 
  # GoalTolerance
 
@@ -64,7 +63,7 @@ TebLocalPlannerROS:
 
  # Homotopy Class Planner
 
- enable_homotopy_class_planning: False
+ enable_homotopy_class_planning: True
  enable_multithreading: False
  simple_exploration: False
  max_number_classes: 4

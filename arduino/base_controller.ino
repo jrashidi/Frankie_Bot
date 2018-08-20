@@ -17,36 +17,33 @@
 #include <std_msgs/String.h>
 #include <std_msgs/Empty.h>
 #include <geometry_msgs/Twist.h>
-#include <geometry_msgs/TwistStamped.h>
 
-const float minSteering = 1200;
-const float maxSteering = 1800;
-const float minThrottle = 0;
-const float maxThrottle = 1680;
+const float minSteering = 1250;
+const float maxSteering = 1600;
+const float minThrottle = 710;
+const float maxThrottle = 790;
 const float steeringIncrement = 9.0;
 float escCommand;
 float escThrottle;
-float smoothSteering = 1500;
+float smoothSteering = 1350;
 float diffGreat;
 float deffLess;
 
 Servo steeringServo;
 Servo esc;
 
-ros::NodeHandler nh;
+ros::NodeHandle nh;
 
 std_msgs::Int32 str_msg;
-ros::Publisher chatter("base_controller_chatter", str_msgs);
+ros::Publisher base_controller_chatter("base_controller_chatter", &str_msg);
 
 //function to convert twist.msg to a usable number
 float fmap(float toMap, float in_min, float in_max, float out_min, float out_max){
   return(toMap - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
 }
 
-//receives a twist.angular.z message and translates it into a useable servo angle
-void writeSteeringservo(msg){
-
-  float steeringAngle = fmap(msg, 0.0, 1.0, minSteering, maxSteering);
+void driveCB(const geometry_msgs::Twist& twistMsg){
+     float steeringAngle = fmap(twistMsg.angular.z, 0.0, 1.0, minSteering, maxSteering);
  //check steering angle to not be below min
  if(steeringAngle < minSteering){
    steeringAngle = minSteering;
@@ -56,16 +53,12 @@ void writeSteeringservo(msg){
    steeringAngle = maxSteering;
  }
 
-  steeringServo.writeMicrosecond(steeringAngle);
+  steeringServo.writeMicroseconds(steeringAngle);
 
- }
-
-//receives a twist.linear.x message and translates it into a useable motor speed
-void writeEsc(msg){
- if(msg >= 0.5){
-   escCommand = (float)fmap(msg, 0.5, 1, 1500.0, maxThrottle);
+   if(twistMsg.linear.x >= 0.5){
+   escCommand = (float)fmap(twistMsg.linear.x, 0.5, 1, 750.0, maxThrottle);
  } else {
-   esc = (float)fmap(msg, 0.0, 0.5, 0, 1500.0);
+   escCommand = (float)fmap(twistMsg.linear.x, 0.0, 0.5, 0, 750.0);
  }
 
  if (escCommand < minThrottle){
@@ -76,27 +69,23 @@ void writeEsc(msg){
    escCommand = maxThrottle;
  }
 
- esc.writeMicrosecond(escCommand);
+ esc.writeMicroseconds(escCommand);
 }
 
-void driveCB(const geometry_msgs::TwistStamped& twistMsg){
-   writeSteeringservo(twistMsg.twist.angular.z);
-   writeEsc(twistMsg.twist.linear.x);
-}
+ros::Subscriber<geometry_msgs::Twist>driveSubscriber("cmd_vel", &driveCB);
 
-ros::Subscriber<geometry_msgs::TwistStamped>driveSubscriber("cmd_vel", &driveCB);
-
-void Setup(){
+void setup(){
   Serial.begin(9600);
   nh.initNode();
   nh.advertise(base_controller_chatter);
   nh.subscribe(driveSubscriber);
   esc.attach(9);
   steeringServo.attach(10);
-  steeringServo.writeMicrosecond(1500);
+  esc.writeMicroseconds(720);
+  steeringServo.writeMicroseconds(1350);
 }
 
-void Loop(){
+void loop(){
   //refreshes node
   nh.spinOnce();
   delay(1);
