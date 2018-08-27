@@ -1,0 +1,7 @@
+<launch>
+  <node pkg="joy_teleop" type="joy_teleop.py" name="joy_teleop" />
+
+  <node pkg="joy" type="joy_node" name="joystick">
+    <param name="autorepeat_rate" value="10" />
+  </node>
+</launch>

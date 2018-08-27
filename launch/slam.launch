@@ -1,6 +1,6 @@
 <launch>
-	<!-- activate teleop controller -->
-	<node />
+  	<!-- Joystick controller -->
+  	<include file="$(find frankie_bot)/launch/include/joystick_teleop.launch"/>
 
 	<!-- activate rtabmapping localization:=false by default --> 
 	<include file="$(find frankie_bot)/launch/include/rtab_mapping.launch" />
