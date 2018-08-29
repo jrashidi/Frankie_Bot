@@ -18,14 +18,15 @@
 #include <std_msgs/Empty.h>
 #include <geometry_msgs/Twist.h>
 
-const float minSteering = 1250;
+const float minSteering = 1150;
 const float maxSteering = 1600;
-const float minThrottle = 710;
-const float maxThrottle = 790;
+const float minThrottle = 700;
+const float maxThrottle = 1100;
 const float steeringIncrement = 9.0;
+float steeringAngle;
 float escCommand;
 float escThrottle;
-float smoothSteering = 1350;
+float smoothSteering = 1375;
 float diffGreat;
 float deffLess;
 
@@ -43,11 +44,18 @@ float fmap(float toMap, float in_min, float in_max, float out_min, float out_max
 }
 
 void driveCB(const geometry_msgs::Twist& twistMsg){
-     float steeringAngle = fmap(twistMsg.angular.z, 0.0, 1.0, minSteering, maxSteering);
- //check steering angle to not be below min
- if(steeringAngle < minSteering){
-   steeringAngle = minSteering;
- }
+  if(twistMsg.angular.z > 0.0 ){
+   steeringAngle = fmap(twistMsg.angular.z, 0.0, 0.5, smoothSteering, maxSteering);
+  }
+
+  else if(twistMsg.angular.z < 0.0 ){
+   steeringAngle = fmap(twistMsg.angular.z, 0.0, -0.5, smoothSteering, minSteering);
+  } 
+ 
+  else if (twistMsg.angular.z == 0.0) {
+   steeringAngle = smoothSteering;
+  }
+
  //check steering angle to make sure it is not above max
  if(steeringAngle > maxSteering){
    steeringAngle = maxSteering;
@@ -55,10 +63,10 @@ void driveCB(const geometry_msgs::Twist& twistMsg){
 
   steeringServo.writeMicroseconds(steeringAngle);
 
-   if(twistMsg.linear.x >= 0.5){
-   escCommand = (float)fmap(twistMsg.linear.x, 0.5, 1, 750.0, maxThrottle);
+   if(twistMsg.linear.x >= 0.25){
+   escCommand = (float)fmap(twistMsg.linear.x, 0.25, 0.5, 750.0, maxThrottle);
  } else {
-   escCommand = (float)fmap(twistMsg.linear.x, 0.0, 0.5, 0, 750.0);
+   escCommand = (float)fmap(twistMsg.linear.x, 0.0, 0.25, 0, 750.0);
  }
 
  if (escCommand < minThrottle){
@@ -81,8 +89,8 @@ void setup(){
   nh.subscribe(driveSubscriber);
   esc.attach(9);
   steeringServo.attach(10);
-  esc.writeMicroseconds(720);
-  steeringServo.writeMicroseconds(1350);
+  esc.writeMicroseconds(650);
+  steeringServo.writeMicroseconds(smoothSteering);
 }
 
 void loop(){
