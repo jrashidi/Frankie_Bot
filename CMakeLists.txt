@@ -1,23 +1,20 @@
 cmake_minimum_required(VERSION 2.8.3)
 project(frankie_bot)
 
-## Find catkin macros and libraries
-## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
-## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
-    roscpp 
-    rospy 
-    tf
-    nav_msgs 
-    geometry_msgs 
-    sensor_msgs 
-    std_msgs
+  geometry_msgs
+  nav_msgs
+  roscpp
+  rospy
+  sensor_msgs
+  std_msgs
+  tf
 )
 
 catkin_package(
   #INCLUDE_DIRS include
   LIBRARIES linorobot
-  CATKIN_DEPENDS roscpp rospy tf nav_msgs lino_msgs geometry_msgs sensor_msgs std_msgs 
+  CATKIN_DEPENDS roscpp rospy tf nav_msgs std_msgs geometry_msgs sensor_msgs std_msgs
   DEPENDS system_lib
 )
 ###########
@@ -27,6 +24,3 @@ catkin_package(
 include_directories(
   ${catkin_INCLUDE_DIRS}
 )
-
-add_executable(frankie_base_node src/frankie_base_node.cpp)
-target_link_libraries(frankie_base_node ${catkin_LIBRARIES})
