@@ -11,6 +11,9 @@
 	<!-- launch  zedd camera-->
 	<include file="$(find Frankie_Bot)/launch/include/zedd.launch" />
 
+  <!-- launch  robot pose ekf-->
+  <include file="$(find Frankie_Bot)/launch/include/robot_pose_ekf.launch" />
+
 	<!-- Publish static transform from base_footprint to base_link -->
   <node pkg="tf" type="static_transform_publisher" name="base_footprint_to_base_link" args="0 0 0.098 0 0 0  /base_footprint /base_link  100"/>
 <launch>
