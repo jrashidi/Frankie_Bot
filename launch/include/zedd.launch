@@ -1,10 +1,12 @@
 <launch>
 	<!-- Publish static transform from base_link to "laser" -->
-	<node pkg="tf" type="static_transform_publisher" name="base_link_to_laser"
-	args="0.065 0 0.098 0 0 0  /base_link /laser  100"/>
+	<node pkg="tf" type="static_transform_publisher" name="base_link_to_camera"
+		args="0.065 0 0.098 0 0 0  /base_link /camera  100"/>
 
-	<!-- start Zedd Camera --> 
+	<!-- start Zedd Camera -->
 	<group ns="camera">
-		<node name="zedd_camera" pkg="zed_wrapper" type="zedd_camera" output="screen" />
-	</group>	
-<launch> 
+		<node name="zedd_camera" pkg="zed_wrapper" type="zedd_camera" output="screen">
+			<remap from="/zed/odom" to="/vo"/>
+		</node>
+	</group>
+<launch>

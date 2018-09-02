@@ -1,9 +1,11 @@
 <launch>
-	<!-- activate rtabmapping with localization:=true --> 
-	<include file="$(find frankie_bot)/launch/include/rtab_mapping.launch"> 
-		<arg name="localization" value="true" />
-	<include/>
+  <!-- Map Server  -->
+  <arg name="map_file" default="$(find linorobot)/maps/house.yaml"/>
+  <node pkg="map_server" name="map_server"  type="map_server" args="$(arg map_file)" />
 
-	<!-- activate navigation stack --> 
+  <!-- AMCL used for localization -->
+  <include file="$(find linorobot)/launch/include/amcl.launch" />
+
+  <!-- activate navigation stack -->
 	<include file="$(find frankie_bot)/launch/include/move_base.launch" />
-<launch> 
+</launch>
