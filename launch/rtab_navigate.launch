@@ -1,9 +1,9 @@
 <launch>
-	<!-- activate rtabmapping with localization:=true --> 
-	<include file="$(find frankie_bot)/launch/include/rtab_mapping.launch"> 
+	<!-- activate rtabmapping with localization:=true -->
+	<include file="$(find Frankie_Bot)/launch/include/rtab_mapping.launch">
 		<arg name="localization" value="true" />
 	<include/>
 
-	<!-- activate navigation stack --> 
-	<include file="$(find frankie_bot)/launch/include/move_base.launch" />
-<launch> 
+	<!-- activate navigation stack -->
+	<include file="$(find Frankie_Bot)/launch/include/move_base.launch" />
+<launch>

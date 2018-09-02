@@ -1,11 +1,11 @@
 <launch>
   <!-- Map Server  -->
-  <arg name="map_file" default="$(find linorobot)/maps/house.yaml"/>
+  <arg name="map_file" default="$(find Frankie_Bot)/maps/house.yaml"/>
   <node pkg="map_server" name="map_server"  type="map_server" args="$(arg map_file)" />
 
   <!-- AMCL used for localization -->
-  <include file="$(find linorobot)/launch/include/amcl.launch" />
+  <include file="$(find Frankie_Bot)/launch/include/amcl.launch" />
 
   <!-- activate navigation stack -->
-	<include file="$(find frankie_bot)/launch/include/move_base.launch" />
+	<include file="$(find Frankie_Bot)/launch/include/move_base.launch" />
 </launch>

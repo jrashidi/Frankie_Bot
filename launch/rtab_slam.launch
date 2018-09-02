@@ -1,7 +1,7 @@
 <launch>
   <!-- Joystick controller -->
-  <include file="$(find frankie_bot)/launch/include/joystick_teleop.launch"/>
+  <include file="$(find Frankie_Bot)/launch/include/joystick_teleop.launch"/>
 
 	<!-- activate rtabmapping localization:=false by default -->
-	<include file="$(find frankie_bot)/launch/include/rtab_mapping.launch" />
+	<include file="$(find Frankie_Bot)/launch/include/rtab_mapping.launch" />
 </launch>

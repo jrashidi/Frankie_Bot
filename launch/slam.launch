@@ -1,7 +1,7 @@
 <launch>
     <!-- Joystick controller -->
-    <include file="$(find frankie_bot)/launch/include/joystick_teleop.launch"/>
-    
+    <include file="$(find Frankie_Bot)/launch/include/joystick_teleop.launch"/>
+
     <!-- Mapping package -->
     <node pkg="gmapping" type="slam_gmapping" name="slam_gmapping" output="screen">
         <param name="base_frame" value="/base_footprint" />

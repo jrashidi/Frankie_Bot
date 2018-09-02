@@ -6,10 +6,10 @@
   </node>
 
   <!-- launch  razor imu-->
-	<include file="$(find razor_imu_9dof)/launch/razor-pub.launch" />
+	<include file="$(find Frankie_Bot)/launch/include/imu.launch" />
 
 	<!-- launch  zedd camera-->
-	<include file="$(find frankie_bot)/launch/include/zedd.launch" />
+	<include file="$(find Frankie_Bot)/launch/include/zedd.launch" />
 
 	<!-- Publish static transform from base_footprint to base_link -->
   <node pkg="tf" type="static_transform_publisher" name="base_footprint_to_base_link" args="0 0 0.098 0 0 0  /base_footprint /base_link  100"/>
