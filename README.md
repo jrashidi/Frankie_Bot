@@ -1,6 +1,8 @@
 # Frankie Bot
 Frankie Bot is named after Mary Shelley's Frankenstein. 
 
+This wiki is mix between education and tutorial in hopes that others will be able to quickly learn and assemble the disjointed ROS wiki. 
+
 Frankie Hardware
 Jetson TX2 as the on board computer
 YDLIDAR X4
@@ -41,9 +43,35 @@ A kalman filter is an algorithm that uses a joint probability distribution of se
 
 
 10. YDLIDAR X4
-The YDLidar 
+The YDLidar is a 360 degree 2D lidar that is used for mapping and object detection. The YDLidar uses triangulation instead of time of flight as the means of calculating distance, https://www.acuitylaser.com/measurement-principles. In order to setup the YDLidar you need to make the package in your src folder, https://github.com/EAIBOT/ydlidar. After making the package then you need to check the usb port that the lidar is connected to in order to set the port in the launch file. 
 
 11. TF
+The Transform ROS package helps to keep track of all coordinate frames of the robot, http://wiki.ros.org/tf. All of Frankie transforms were put in using the static_transform_publisher in order to isolate the publishers, http://wiki.ros.org/tf#static_transform_publisher. 
+
+In order to adjust a static_transform_publisher you need to adjust the args of the node. The args are the x,y,z and the roll, pitch, and yaw of the rotation. This publisher tells ROS that the base_link is 0.098 meters above the base_footprint. Without this transform, the robot would hit any obstacle that is below 0.098 meters because it would have no reference point to the ground. 
+<!-- Publish static transform from base_footprint to base_link -->
+  <node pkg="tf" type="static_transform_publisher" name="base_footprint_to_base_link" args="0 0 0.098 0 0 0  /base_footprint /base_link  100"/>
+  
+In order to setup Frankie then you need to adjust a few tf publishers.
+
+Frankie has the following transformations:
+map -> odom 
+This transformation is published by the AMCL node and does not need to be adjusted. This node is often confusing because it would seem that this transformation should publish to the base_link frame, but since children frames can only have one parent this points to the odom frame. This map frame is a fixed frame of reference, but is non-continous and can have discrete jumps in the position of the robot. While the odom frame is a continous frame of reference from dead reckoning that can drift over time. 
+
+odom -> base_footprint
+This transform is the relationship between the robot's current pose from its origin and the base_footprint. The base_footprint differs from the base_link as it is the a shadow of the base_link reflected on the floor. This base_footprint helps in obstacle avoidance. This transform is published by robot_pose_efk package. This frame of reference also does not need to be adjusted. 
+
+base_footprint -> base_link
+This transform is the static relationship between the center of the robot base and the floor. This needs to be adjusted in the minimal.launch file. You need to measure the distance between the floor and the center of the robot base. The measured distance on the third value found in "args" parameter is the z direction which is the upward directon. 
+
+base_link -> laser
+This transform is the static relationship between the lidar and the robot's base. This publisher can be found in the include/laser.launch file.
+
+base_link -> camera
+This transform is the static relationship between the camera and the robot's base. This publisher can be found in the include/zedd.launch file.
+
+base_link -> imu
+This transform is the static relationship between the imu and the robot's base. This publisher can be found in the include/imu.launch file.
 
 12. Simultaneous Localization and Mapping
 
