@@ -28,7 +28,9 @@ In order to get started with and configure the VESC then you will need to first 
 
 9. YDLIDAR X4
 
-10. TF 
+10. TF
+
+11. Navigation Stack/Teb Local Planner
 
 11. Creating a Map
 
