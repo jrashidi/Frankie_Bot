@@ -4,13 +4,21 @@ Frankie Bot is named after Mary Shelley's Frankenstein.
 This wiki is mix between education and tutorial in hopes that others will be able to quickly learn and assemble the disjointed ROS wiki. Prior to starting to assemble Frankie you should do all of the beginner tutorials on this page, http://wiki.ros.org/ROS/Tutorials.
 
 Frankie Hardware
+
 Jetson TX2 as the on board computer
+
 YDLIDAR X4
+
 9DoF Razor IMU M0 
+
 Zedd Camera
+
 Arduino Mega Microcontroller
+
 VESC Speed Controller
+
 Default RC motor, Chasis, and Wheels 
+
 256 GB SSD Card was used with the Jetson TX2 for more storage capacity for data
 
 
