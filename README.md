@@ -1,7 +1,7 @@
 # Frankie Bot
 Frankie Bot is named after Mary Shelley's Frankenstein. 
 
-This wiki is mix between education and tutorial in hopes that others will be able to quickly learn and assemble the disjointed ROS wiki. 
+This wiki is mix between education and tutorial in hopes that others will be able to quickly learn and assemble the disjointed ROS wiki. Prior to starting to assemble Frankie you should do all of the beginner tutorials on this page, http://wiki.ros.org/ROS/Tutorials.
 
 Frankie Hardware
 Jetson TX2 as the on board computer
@@ -84,21 +84,43 @@ This transform is the static relationship between the camera and the robot's bas
 base_link -> imu
 This transform is the static relationship between the imu and the robot's base. This publisher can be found in the include/imu.launch file.
 
-12. Simultaneous Localization and Mapping
+12. Costmap Common Params Footprint
+In the costmap_common_params.yaml you need to set the robot footprint for the robot.  The footprint of the robot is the area that the robot occupies and is mapped in x,y coordinates from the center of the robot: [[-x, -y], [-x, y], [x, y], [x, -y]]. For simplicity Frankie used a circular radius instead of a box footprint this will be updated at a later date. 
 
-13. Gmapping
+12. Joy/Teleop_Twist_Joy
 
-14. Autonomous Navigation
+In order to control the robot while not in autonomous mode then you need to connect Frankie to a remote controller. We used the wireless logitech game controller. In order to use this controller then you need to install two ROS packages, the joy node, http://wiki.ros.org/joy. The joy package registers the joystick comamnds from the controller. The Teleop package, http://wiki.ros.org/teleop_twist_joy,  subscribes to the joy topic and will convert the joy outputs to twist_msgs that are published to the cmd_vel topic and is read by the base controller. 
 
-15. AMCL
+13. Simultaneous Localization and Mapping
+
+Simultaneous localiation and mapping (SLAM) is the technique of mapping a previously unknown location. There are several techniques for SLAM: RTAB-Mapping, Hector SLAM, ORB SLAM, KARTO SLAM, HDL SLAM, and Gmapping. For Frankie we used gmapping for the SLAM technique. Gmapping uses odometery and laser scans and performs better in ambiguous areas where it can rely on odom data.
+
+You need two terminals to launch SLAM. 
+
+Run "roslaunch frankie_bot minimal.launch" then "roslaunch frankie_bot slam.launch"
+
+14. AMCL
+
 In order to help compensate for the drift that occurs in odometry, Adaptive Monte Carlo Localization (ACML) is utilized to better determine location. ACML is a type of localization that uses a laser and particle filter to determine location against a known map.  Probabilistic Robotics by Thrun, also known as the godfather of self driving cars, https://docs.ufpr.br/~danielsantos/ProbabilisticRobotics.pdf, can go into depth on various localization tehcniques. Frankie, currently uses AMCL, but will also implement RTAB mapping with the Zedd Camera. 
 
-16. Teb Local Planner
+15. Timed Elastic Band Local Planner
 
+Timed Elastic Band (TEB) Planner, http://wiki.ros.org/teb_local_planner,  is the local planner that was used with the navigation stack. The TEB Planner was choosen because of the use of the planner with Ackermann steering. TEB Local Planner uses a Timed Elastic Band approach to the local trajectory of the robot. Where the path can be stretched in one direction or another in order to allow for dynamic planning as well as object avoidance. The other planner that was considered is the Dynamic Window Approach (DWA) Planner,http://wiki.ros.org/dwa_local_planner, but additional modifications would need to be made in order to adapt the package to ackermann steering.  
+
+16. Autonomous Navigation
+
+Finally, Frankie should be able to navigate autonomously. In order to better understand all the nodes and configurations of the navigation stack read the ROS documentation, http://wiki.ros.org/navigation.
+
+You need two terminals to launch SLAM. 
+
+Run "roslaunch frankie_bot minimal.launch" then "roslaunch frankie_bot navigate.launch"
+
+To send goals to Frankie open up RVIZ and send goals to him in the known map. 
 
 
 In Progress:
-Mapping with RTAB and Hector SlAM to compare the results against Gmapping.
+
+Mapping with RTAB and Hector SLAM to compare the results against Gmapping.
 
 Add GPS Module to EKF
 
