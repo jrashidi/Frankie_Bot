@@ -85,6 +85,7 @@ base_link -> imu
 This transform is the static relationship between the imu and the robot's base. This publisher can be found in the include/imu.launch file.
 
 12. Costmap Common Params Footprint
+
 In the costmap_common_params.yaml you need to set the robot footprint for the robot.  The footprint of the robot is the area that the robot occupies and is mapped in x,y coordinates from the center of the robot: [[-x, -y], [-x, y], [x, y], [x, -y]]. For simplicity Frankie used a circular radius instead of a box footprint this will be updated at a later date. 
 
 12. Joy/Teleop_Twist_Joy
@@ -117,6 +118,7 @@ Run "roslaunch frankie_bot minimal.launch" then "roslaunch frankie_bot navigate.
 
 To send goals to Frankie open up RVIZ and send goals to him in the known map. 
 
+------------------------------------------------------------------------------------------------------------------------------
 
 In Progress:
 
