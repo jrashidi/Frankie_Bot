@@ -1,5 +1,5 @@
 # Frankie Bot
-Frankie Bot is named after Mary Shelley's Frankenstein. (Pictures coming soon) 
+Frankie Bot is named after Mary Shelley's Frankenstein.
 
 This wiki is mix between education and tutorial in hopes that others will be able to quickly learn and assemble the disjointed ROS wiki. Prior to starting to assemble Frankie you should do all of the beginner tutorials on this page, http://wiki.ros.org/ROS/Tutorials.
 
