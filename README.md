@@ -130,7 +130,7 @@ To send goals to Frankie open up RVIZ and send goals to him in the known map.
 
 ------------------------------------------------------------------------------------------------------------------------------
 
-In Progress:
+Things I never got to but would be a good addition. 
 
 Mapping with RTAB and Hector SLAM to compare the results against Gmapping.
 
